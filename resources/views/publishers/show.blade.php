@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="<?php echo asset('css/app.css')?>" type="text/css"> 
+
 <div style="padding: 1em;">
   <h2>List of books published by {{$publisher->title}}</h2>
       @foreach ($books as $book)

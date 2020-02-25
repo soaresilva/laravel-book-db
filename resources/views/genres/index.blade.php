@@ -1,11 +1,4 @@
-<style>
-  a {
-    text-decoration: none;
-  }
-  a:visited {
-    color: blue;
-  }
-</style>
+<link rel="stylesheet" href="<?php echo asset('css/app.css')?>" type="text/css"> 
 
 <div style="padding: 1rem;">
 
