@@ -32,6 +32,15 @@ Route::get('/publishers/create', 'PublisherController@create');
 Route::get('/publishers/{publisher_id}', 'PublisherController@show');
 Route::post('/publishers', 'PublisherController@store'); // we can have a get and a post request to the same URL
 
+Route::get('/genres', 'GenreController@index');
+Route::get('/genres/create', 'GenreController@create'); // NEEDS TO BE ABOVE THE ONE WITH {ID}!
+Route::get('/genres/{id}', 'GenreController@show');
+Route::post('/genres', 'GenreController@store'); 
+
+
+
+
+
 
 
  // passing the variable name inside curly brackets for e.g. having the detail of each book shown on a different page with their ID as part of the url

@@ -1,3 +1,12 @@
+<style>
+  a {
+    text-decoration: none;
+  }
+  a:visited {
+    color: blue;
+  }
+</style>
+
 @foreach ($books as $book)
 <div style="display:flex; padding: 1em;">
   <img src="{{$book->image}}" /><br>

@@ -2,6 +2,11 @@
 @csrf
   <input type="text" name="title" placeholder="Title">
   <input type="text" name="authors" placeholder="Authors">
+  <select name="genre_id">
+    @foreach ($genres as $genre)
+      <option value="{{$genre->id}}">{{$genre->name}}</option>
+    @endforeach
+  </select>
   <input type="text" name="image" placeholder="Image URL">
   <select name="publisher_id">
     @foreach ($publishers as $publisher)

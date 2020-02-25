@@ -12,6 +12,7 @@ a:visited {
   <div style="display:flex; flex-direction: column; padding-left: 3em;">
     <h2>{{$book->title}}</h2>
     <i><b>{{$book->authors}}</b> ({{$book->publisher->title}})</i><br>
+    <p>{{$book->genre !== null ? $book->genre->name : ""}}</p>
     <a href="/books/{{$book->id}}/edit">Edit book</a>
     <a href="/books/{{$book->id}}/delete">Delete book</a>
     <a href="{{ action('BookExampleController@index') }}">Go back to index</a>

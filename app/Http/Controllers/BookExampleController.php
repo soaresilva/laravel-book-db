@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Genre;
 use App\Publisher;
 use Illuminate\Http\Request;
 
@@ -23,14 +24,16 @@ class BookExampleController extends Controller
     public function create()
     {
         $publishers = Publisher::all();
-        return view('books/create', compact('publishers'));
+        $genres = Genre::all();
+        return view('books/create', compact('publishers', 'genres'));
     }
     
     public function edit($id)
     {
         $book = Book::findOrFail($id);
+        $genres = Genre::all();
         $publishers = Publisher::all();
-        return view('books/edit', compact('book', 'publishers'));
+        return view('books/edit', compact('book', 'genres', 'publishers'));
     }
     
     public function store(Request $request)
@@ -38,6 +41,7 @@ class BookExampleController extends Controller
         $b = new Book; 
         $b->title = $request->input('title');
         $b->authors = $request->input('authors');
+        $b->genre_id = $request->input('genre_id');
         $b->image = $request->input('image');
         $b->publisher_id = $request->input('publisher_id');
         if ($b->image === null) {
@@ -54,6 +58,7 @@ class BookExampleController extends Controller
         $book = Book::findOrFail($id); // Grabbing a book from the database instead of creating a new one
         $book->title = $request->input('title');
         $book->authors = $request->input('authors');
+        $book->genre_id = $request->input('genre_id');
         $book->image = $request->input('image');
         $book->publisher_id = $request->input('publisher_id');
         if ($book->image === null) {
