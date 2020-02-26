@@ -19,6 +19,11 @@ class Book extends Model
     {
         return $this->belongsTo(Genre::class);
     }
+    
+    public function cart()
+    {
+        return $this->hasOne(CartItem::class);
+    }
 }
 
 // because we defined the table as 'books' in this model, on the ORMController's index function we can simply grab the books easily:         

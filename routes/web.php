@@ -38,6 +38,10 @@ Route::get('/genres/{id}', 'GenreController@show');
 Route::post('/genres', 'GenreController@store'); 
 
 
+Route::get('/cart', 'CartController@index');
+Route::get('/cart/add/{book_id}', 'CartController@add');
+Route::get('/cart/empty', 'CartController@emptycart');
+// Route::post('/cart/add', 'CartController@postAdd');
 
 
 
