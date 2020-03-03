@@ -49,4 +49,12 @@ class CartController extends Controller
         DB::statement('TRUNCATE TABLE `cart_items`');
         return redirect('cart/');
     }
+    
+    public function delete($id)
+    {
+        $item = cartItem::findOrFail($id);
+        // TODO: create a prompt to ask user 'are you sure you want to delete the book?'
+        $item->delete();
+        return redirect('cart/');
+    }
 }

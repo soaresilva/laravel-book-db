@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\Genre;
+use App\Review;
 use App\Publisher;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,8 @@ class BookExampleController extends Controller
     public function show($id)
     {
         $book = Book::findOrFail($id);
-        return view('books/show', compact('book'));
+        $reviews = Review::all();
+        return view('books/show', compact('book', 'reviews'));
     }
     
     public function create()

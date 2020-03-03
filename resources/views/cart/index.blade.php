@@ -1,24 +1,34 @@
-{{-- THIS IS THE CART INDEX --}}
+@extends('layout', [
+  'title' => 'Your cart'
+])
 
-<link rel="stylesheet" href="<?php echo asset('css/app.css')?>" type="text/css"> 
+@section('headline')
+<h2>Items in the cart</h2>
+@endsection
+
+@section('content')
 
 <div style="padding: 1rem;">
 
-<h2>Items in the cart</h2>
+  <div>
+      <a href="{{ action('BookExampleController@index') }}">Return to list of books</a> |
+      <a href="{{ action('CartController@emptycart') }}">Empty cart</a>
+  </div>
+  
+  <div style="padding-top: 1rem">
+  
+      @foreach ($items as $item)
+          <div style="display:flex; flex-direction: column; padding-left: 3em;">
+            <p><a href="{{ action('BookExampleController@show', [$item->book->id]) }}">
+            {{$item->book->title}}
+            </a>
+            ({{$item->book->publisher->title}})</p>
+            <p>In cart: <b>{{$item->count}}</b> | <a href="/cart/{{$item->id}}/delete">Remove from cart</a></p>
+          </div>
+        <hr/>
+      @endforeach
 
-<a href="{{ action('BookExampleController@index') }}">Return to list of books</a>
-<a href="{{ action('CartController@emptycart') }}">Empty cart</a>
-
-
-@foreach ($items as $item)
-    <div style="display:flex; flex-direction: column; padding-left: 3em;">
-      <p><a href="{{ action('BookExampleController@show', [$item->book->id]) }}">
-      {{$item->book->title}}
-      </a>
-      ({{$item->book->publisher->title}})</p>
-      <p>In cart: <b>{{$item->count}}</b></p>
-    </div>
-  <hr/>
-@endforeach
-
+  </div>
 </div>
+
+@endsection

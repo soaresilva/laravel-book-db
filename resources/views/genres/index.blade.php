@@ -1,15 +1,22 @@
-<link rel="stylesheet" href="<?php echo asset('css/app.css')?>" type="text/css"> 
+@extends('layout', [
+  'title' => 'List of Genres'
+])
 
-<div style="padding: 1rem;">
+@section('headline')
+  <h1>List of Genres</h1>
+@endsection
 
-<h2>List of genres</h2>
+@section('content')
 
-@foreach ($genres as $genre)
-  <div style="display:flex; flex-direction: column; padding-left: 3em;">
-    <h3>{{$genre->name}}</h3>
-    <a href="{{ action('GenreController@show', [$genre->id]) }}">Books in the category</a>
+  <div style="padding-top: 1rem;">
+  @foreach ($genres as $genre)
+    <div style="display:flex; flex-direction: column; padding-top: 1em;">
+      <h3>{{$genre->name}}</h3>
+      <a href="{{ action('GenreController@show', [$genre->id]) }}">Books in the category</a>
+    </div>
+  <hr/>
+  @endforeach
+
   </div>
-<hr/>
-@endforeach
 
-</div>
+@endsection

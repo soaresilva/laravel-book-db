@@ -1,3 +1,7 @@
+@extends('layout', [
+  'title' => 'Create a Book'
+])
+
 <form action="/books" method="post">
 @csrf
   <input type="text" name="title" placeholder="Title">

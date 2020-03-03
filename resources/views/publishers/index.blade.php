@@ -1,9 +1,18 @@
-<link rel="stylesheet" href="<?php echo asset('css/app.css')?>" type="text/css"> 
+@extends('layout', [
+  'title' => 'List of Publishers'
+])
 
-@foreach ($publishers as $publisher)
-<div style="padding: 1em;">
-    <h2>{{$publisher->title}}</h2>
-    <a href="{{ action('PublisherController@show', [$publisher->id]) }}">Read more</a>
-</div>
-<hr/>
-@endforeach
+@section('headline')
+  <h1>List of Publishers</h1>
+@endsection
+
+
+@section('content')
+    @foreach ($publishers as $publisher)
+    <div style="padding-top: 1em;">
+        <h3>{{$publisher->title}}</h3>
+        <a href="{{ action('PublisherController@show', [$publisher->id]) }}">Read more</a>
+    </div>
+    <hr/>
+    @endforeach
+@endsection

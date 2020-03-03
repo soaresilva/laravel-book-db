@@ -1,17 +1,25 @@
-<link rel="stylesheet" href="<?php echo asset('css/app.css')?>" type="text/css"> 
+@extends('layout', [
+  'title' => 'List of Books'
+])
 
-<div style="padding: 1em;">
+@section('headline')
   <h2>List of books published by {{$publisher->title}}</h2>
+@endsection
+
+@section('content')
+<div style="padding: 1em;">
       @foreach ($books as $book)
-        <div style="display:flex; padding: 1em;">
+        <div class="imgdisplay">
           <img src="{{$book->image}}" /><br>
-          <div style="display:flex; flex-direction: column; padding-left: 3em;">
-            <h2>{{$book->title}}</h2>
-            <h4><i>{{$book->authors}}</i></h4>
-          </div>
+            <div class="bookdisplay">
+              <h2>{{$book->title}}</h2>
+              <h4><i>{{$book->authors}}</i></h4>
+            </div>
         </div>
         <hr/>
       @endforeach
   <a href="{{ action('PublisherController@index') }}">Go back to list of publishers</a>
   </div>
 </div>
+
+@endsection

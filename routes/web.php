@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,7 +26,6 @@ Route::get('/books/{id}', 'BookExampleController@show');
 Route::post('/books', 'BookExampleController@store');
 Route::get('/books/{id}/edit', 'BookExampleController@edit');
 Route::post('/books/{id}/edit', 'BookExampleController@update');
-
 Route::get('books/{id}/delete', 'BookExampleController@delete');
 
 
@@ -41,8 +43,10 @@ Route::post('/genres', 'GenreController@store');
 Route::get('/cart', 'CartController@index');
 Route::get('/cart/add/{book_id}', 'CartController@add');
 Route::get('/cart/empty', 'CartController@emptycart');
+Route::get('cart/{id}/delete', 'CartController@delete');
 // Route::post('/cart/add', 'CartController@postAdd');
 
+Route::post('reviews/{book_id}', 'ReviewController@store');
 
 
 
