@@ -13,5 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         // we can call all the other seeders here
         $this->call(BooksSeeder::class);
+        // $this->call(PublisherSeeder::class);
+
     }
 }

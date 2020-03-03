@@ -13,7 +13,7 @@
   <img src="{{$book->image}}" /><br>
   <div style="display:flex; flex-direction: column; padding-left: 2em;">
     <h2>{{$book->title}}</h2>
-  <h4><i>{{$book->authors}}</i></h4>
+  <h4><i>{{$book->authors}}</i> ({{$book->publisher->title}})</h4>
     <a href="{{ action('BookExampleController@show', [$book->id]) }}">Read more</a>
     <a href="/cart/add/{{ $book->id }}">Add to Cart</a>
 
