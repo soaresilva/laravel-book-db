@@ -17,16 +17,18 @@
   
   <div style="padding-top: 1rem">
   
-      @foreach ($items as $item)
+      @forelse ($items as $item)
           <div style="display:flex; flex-direction: column; padding-left: 3em;">
             <p><a href="{{ action('BookExampleController@show', [$item->book->id]) }}">
             {{$item->book->title}}
             </a>
-            ({{$item->book->publisher->title}})</p>
+            ({{$item->book->publisher !== null ? $item->book->publisher->title : "Publisher unknown"}})</p>
             <p>In cart: <b>{{$item->count}}</b> | <a href="/cart/{{$item->id}}/delete">Remove from cart</a></p>
           </div>
         <hr/>
-      @endforeach
+      @empty
+        <p>Your cart is empty.</p>
+      @endforelse
 
   </div>
 </div>

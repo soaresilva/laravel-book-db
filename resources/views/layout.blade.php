@@ -26,6 +26,7 @@
   @yield('content')
   @yield('listreviews')
   @yield('review')
+  @yield('bottomnav')
 
 
 </body>

@@ -18,7 +18,7 @@
   <img src="{{$book->image}}" /><br>
   <div class="bookdisplay">
     <h2>{{$book->title}}</h2>
-    <i><b>{{$book->authors}}</b> ({{$book->publisher->title}})</i><br>
+    <i><b>{{$book->authors}}</b> ({{$book->publisher !== null ? $book->publisher->title : "Publisher unknown"}})</i>
     <p><b>Genre</b>: {{$book->genre !== null ? $book->genre->name : ""}}</p>
     <a href="/books/{{$book->id}}/edit">Edit book</a>
     <a href="/books/{{$book->id}}/delete">Delete book</a>

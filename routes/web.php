@@ -48,6 +48,7 @@ Route::get('cart/{id}/delete', 'CartController@delete');
 
 Route::post('reviews/{book_id}', 'ReviewController@store');
 
+Route::get('/books-qb', 'BookQueryBuilderController@index');
 
 
 

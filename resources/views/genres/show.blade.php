@@ -14,7 +14,7 @@
           <img src="{{$book->image}}" /><br>
           <div class="bookdisplay">
             <a href="{{ action('BookExampleController@show', [$book->id]) }}">{{$book->title}}</a>
-            <i><b>{{$book->authors}}</b> ({{$book->publisher->title}})</i><br>
+            <i><b>{{$book->authors}}</b> ({{$book->publisher !== null ? $book->publisher->title : "Publisher unknown"}})</i><br>
           </div>
         </div>
         <hr/>

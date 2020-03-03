@@ -80,7 +80,6 @@ class BookExampleController extends Controller
         $book->authors = $request->input('authors');
         $book->genre_id = $request->input('genre_id');
         $book->publisher_id = $request->input('publisher_id');
-        // TODO: change this
         if (!$file) {
             if ($book->image !== 'https://i.stack.imgur.com/D2VB2.png') {
                 $book->image = $book->image;
