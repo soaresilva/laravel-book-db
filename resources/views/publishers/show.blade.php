@@ -12,8 +12,8 @@
         <div class="imgdisplay">
           <img src="{{$book->image}}" /><br>
             <div class="bookdisplay">
-              <h2>{{$book->title}}</h2>
-              <h4><i>{{$book->authors}}</i></h4>
+              <a href="{{ action('BookExampleController@show', [$book->id]) }}">{{$book->title}}</a>
+              <i>{{$book->authors}}</i>
             </div>
         </div>
         <hr/>
@@ -23,3 +23,5 @@
 </div>
 
 @endsection
+
+

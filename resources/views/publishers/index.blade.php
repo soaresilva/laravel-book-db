@@ -15,4 +15,7 @@
     </div>
     <hr/>
     @endforeach
+    
+    <a href="{{ action('PublisherController@create') }}">Create new publisher</a>
+
 @endsection

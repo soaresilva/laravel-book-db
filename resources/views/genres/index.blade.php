@@ -16,6 +16,10 @@
     </div>
   <hr/>
   @endforeach
+  
+  <a href="{{ action('GenreController@create') }}">Create new genre</a>
+
+  
 
   </div>
 

@@ -40,35 +40,58 @@ class BookExampleController extends Controller
     
     public function store(Request $request)
     {
+        // if there is a file named image_file in the request
+        if ($file = $request->file('image_file')) {
+            //handle the file upload -> store it in a disk (in this case 'uploads' as defined in filesystems.php)
+            //              input name           folder    disk
+            $request->file('image_file')->store('covers', 'uploads');
+            
+            // to store the file with the name we want
+            // to store it with the original name
+            $original_name = $file->getClientOriginalName();
+            $request->file('image_file')->storeAs('covers', $original_name, 'uploads');
+        }        
+        
         $b = new Book; 
         $b->title = $request->input('title');
         $b->authors = $request->input('authors');
         $b->genre_id = $request->input('genre_id');
-        $b->image = $request->input('image');
-        $b->publisher_id = $request->input('publisher_id');
-        if ($b->image === null) {
+        if (!$file) {
             $b->image = "https://i.stack.imgur.com/D2VB2.png";
-        };
+        } else {
+            $b->image = '/uploads/covers/'.$original_name;
+        }
+        $b->publisher_id = $request->input('publisher_id');
         $b->save();
-        // return $b;
-        // return $request;
         return redirect('books/' . $b->id);
     }
     
     public function update(Request $request, $id)
     {
+        
+        if ($file = $request->file('image_file')) {
+            $request->file('image_file')->store('covers', 'uploads');
+            $original_name = $file->getClientOriginalName();
+            $request->file('image_file')->storeAs('covers', $original_name, 'uploads');
+        }        
+        
         $book = Book::findOrFail($id); // Grabbing a book from the database instead of creating a new one
         $book->title = $request->input('title');
         $book->authors = $request->input('authors');
         $book->genre_id = $request->input('genre_id');
-        $book->image = $request->input('image');
         $book->publisher_id = $request->input('publisher_id');
-        if ($book->image === null) {
-            $book->image = "https://i.stack.imgur.com/D2VB2.png";
-        };
+        // TODO: change this
+        if (!$file) {
+            if ($book->image !== 'https://i.stack.imgur.com/D2VB2.png') {
+                $book->image = $book->image;
+            }
+            else {
+                $book->image = "https://i.stack.imgur.com/D2VB2.png";
+            }
+        } else {
+            $book->image = '/uploads/covers/'.$original_name;
+        }
         $book->save(); 
-        // return $book;
-        // return $request;
         return redirect('books/' . $book->id);
     }
         
