@@ -11,8 +11,6 @@ class ReviewController extends Controller
     public function store(Request $request, $book_id)
     {
         $this->validate($request, [
-            'author' => 'required',
-            'email' => 'required|email',
             'review' => 'required|max:255'
         ], [
             'review.max' => 'Error: The maximum length is 255 characters.'
@@ -20,18 +18,29 @@ class ReviewController extends Controller
         
         $review = new Review;
         $review->book_id = $book_id;
+        $review->user_id = auth()->id();
         // $review->author = $request->input('author');
         // $review->email = $request->input('email');
         // $review->review = $request->input('review');
         
         // to achieve the same as what is commented out above, without repeating ourselves - provided we added info on what $fillable on the Review class declaration:
-        $review->fill($request->only(['author', 'email', 'review']));
+        $review->fill($request->only(['review']));
         
         // or, if we also declared what to blacklist ($guarded):
         // $review->fill($request->all());
         $review->save();
         session()->flash('success_message', 'Review saved!');
         return redirect('books/' . $book_id);
+    }
+    
+    public function delete(Request $request, $id)
+    {
+        $review = Review::findOrFail($id);
+        // TODO: create a prompt to ask admin 'are you sure you want to delete the review?'
+        $review->delete();
+        session()->flash('success_message', 'Review deleted');
+        return redirect()->back();
+
     }
 }
 

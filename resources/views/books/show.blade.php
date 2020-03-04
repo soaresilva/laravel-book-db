@@ -36,14 +36,30 @@
     <h3>Reviews for {{$book->title}} </h3>
 
     @forelse ($book->reviews as $review)
-      <p><b><a href="mailto:{{$review->email}}">{{$review->author}}</a></b>: {{$review->review}}</p>
+      <p><b><a href="mailto:{{$review->user->email}}">{{$review->user->name}}</a></b>: {{$review->review}}</p>
+      
+    @can('admin')
+      <form action="{{ route('review.delete', $review->id) }}" method="post">
+          @method('delete')
+          @csrf
+          <input type="submit" value="delete">
+      </form>
+    @endcan
+      
+      
     @empty
       <p>This book has no reviews. Write one?</p>
     @endforelse
 
+@guest
+  <h3>Please <a href=" {{ route('login') }}">login</a> to leave a review.</h3>
+@endguest
   </div>
 
 @endsection
+
+
+@auth
 
 @section('review')
 
@@ -63,9 +79,9 @@
       </div>
     @endif
 
-    <input type='text' placeholder='Your name' value="{{old('author')}}" name='author' style="margin-bottom: .5rem; width: 20rem;" />
+    <input type='text' disabled value="{{ Auth::user()->name }}" name='author' style="margin-bottom: .5rem; width: 20rem;" />
     
-    <input type='text' placeholder='Your email' value="{{old('email')}}" name='email' style="margin-bottom: .5rem; width: 20rem;" />
+    <input type='text' disabled value="{{ Auth::user()->email }}" name='email' style="margin-bottom: .5rem; width: 20rem;" />
 
     <textarea rows="5" columns="10" placeholder='Write your review' name='review' style="margin-bottom: .5rem;">{{old('review')}}</textarea>
     <input type='Submit'style="margin-bottom: .5rem;" />
@@ -74,6 +90,9 @@
 </div>
 
 @endsection
+
+@endauth
+
 
 
 {{-- because we set the relationship in App\Book and App\Publisher, we can now get the publisher's name: $book->publisher->title gets the publisher's ID, and then inside the table publisher it fetches the publisher's name (title) --}}

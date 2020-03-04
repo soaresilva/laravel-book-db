@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBookIdColumnToReviewsTable extends Migration
+class AddUserIdToReviewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,9 @@ class AddBookIdColumnToReviewsTable extends Migration
     public function up()
     {
         Schema::table('reviews', function (Blueprint $table) {
-            $table->unsignedBigInteger('book_id')->after('id')->nullable();
+            $table->dropColumn('author');
+            $table->dropColumn('email');
+            $table->unsignedBigInteger('user_id')->after('id');
         });
     }
 
@@ -26,7 +28,10 @@ class AddBookIdColumnToReviewsTable extends Migration
     public function down()
     {
         Schema::table('reviews', function (Blueprint $table) {
-            $table->dropColumn('book_id');
+            $table->dropColumn('user_id');
+            
+            $table->string('email')->after('updated_at');
+            $table->string('author')->after('id');
         });
     }
 }

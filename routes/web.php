@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -21,7 +22,7 @@ Route::get('/', function () {
 Route::get('/api/books/', 'APIBookController@index');
 
 Route::get('/books', 'BookExampleController@index');
-Route::get('/books/create', 'BookExampleController@create')->middleware('auth');
+Route::get('/books/create', 'BookExampleController@create');
 Route::get('/books/{id}', 'BookExampleController@show');
 Route::post('/books', 'BookExampleController@store');
 Route::get('/books/{id}/edit', 'BookExampleController@edit');
@@ -46,7 +47,9 @@ Route::get('/cart/empty', 'CartController@emptycart');
 Route::get('cart/{id}/delete', 'CartController@delete');
 // Route::post('/cart/add', 'CartController@postAdd');
 
-Route::post('reviews/{book_id}', 'ReviewController@store');
+Route::post('review/{book_id}', 'ReviewController@store')->middleware('auth');
+Route::delete('review/{id}', 'ReviewController@delete')->middleware('can:admin')->name('review.delete');
+
 
 Route::get('/books-qb', 'BookQueryBuilderController@index');
 

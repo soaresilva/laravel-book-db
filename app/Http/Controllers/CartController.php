@@ -55,6 +55,6 @@ class CartController extends Controller
         $item = cartItem::findOrFail($id);
         // TODO: create a prompt to ask user 'are you sure you want to delete the book?'
         $item->delete();
-        return redirect('cart/');
+        return redirect()->back();
     }
 }
