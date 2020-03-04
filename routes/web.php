@@ -21,7 +21,7 @@ Route::get('/', function () {
 Route::get('/api/books/', 'APIBookController@index');
 
 Route::get('/books', 'BookExampleController@index');
-Route::get('/books/create', 'BookExampleController@create');
+Route::get('/books/create', 'BookExampleController@create')->middleware('auth');
 Route::get('/books/{id}', 'BookExampleController@show');
 Route::post('/books', 'BookExampleController@store');
 Route::get('/books/{id}/edit', 'BookExampleController@edit');
@@ -54,3 +54,7 @@ Route::get('/books-qb', 'BookQueryBuilderController@index');
 
  // passing the variable name inside curly brackets for e.g. having the detail of each book shown on a different page with their ID as part of the url
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

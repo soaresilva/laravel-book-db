@@ -1,34 +1,8 @@
-a {
-  text-decoration: none;
-}
-a:visited {
-  color: blue;
-}
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
 
-img {
-  width: 100px;
-  height: 150px;
-}
+// Variables
+@import 'variables';
 
-body {
-  background-color: pink;
-  font-family: Nunito, sans-serif;
-  padding-left: 3rem;
-}
-
-nav {
-  padding: 1rem;
-  font-size: 1rem;
-  text-align: end;
-}
-
-.imgdisplay {
-  display:flex;
-  padding-top: 1rem;
-}
-
-.bookdisplay {
-  display:flex; 
-  flex-direction: column; 
-  padding-left: 2rem;
-}
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
