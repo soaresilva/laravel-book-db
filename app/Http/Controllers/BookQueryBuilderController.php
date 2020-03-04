@@ -45,7 +45,9 @@ class BookQueryBuilderController extends Controller
         
         $books = Book::query()
         ->orderBy('title', 'asc')
-        ->paginate(15);
+        ->with('publisher') // makes it so much faster: it looks through all the books and creates an array with all of them inside, reducing the queries from 102 to 3, and the request duration from 1.4s to 700ms
+        ->with('reviews')
+        ->paginate(100);
         
         // dd($books);
         
