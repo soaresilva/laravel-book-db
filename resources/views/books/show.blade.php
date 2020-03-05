@@ -21,9 +21,13 @@
     <i><b>{{$book->authors}}</b> ({{$book->publisher !== null ? $book->publisher->title : "Publisher unknown"}})</i>
     <p><b>Genre</b>: {{$book->genre !== null ? $book->genre->name : ""}}</p>
     <a href="/books/{{$book->id}}/edit">Edit book</a>
-    <a href="/books/{{$book->id}}/delete">Delete book</a>
     <a href="/cart/add/{{ $book->id }}">Add to Cart</a>
-    <a href="{{ action('BookExampleController@index') }}">Go back to index</a>    
+    <a href="{{ action('BookExampleController@index') }}">Go back to index</a> 
+    <form action="{{ route('book.delete', $book->id) }}" method="post">
+      @method('delete')
+      @csrf
+      <input type="submit" value="Delete book">
+    </form>   
   </div>
 </div>
 
@@ -65,7 +69,7 @@
 
 <div style="display:flex">
 
-  <form action="{{ action('ReviewController@store', $book->id)}}" method="post" style="display: flex; flex-direction: column; margin-top: 2rem;">
+  <form action="{{ action('ReviewController@store', [$book->id])}}" method="post" style="display: flex; flex-direction: column; margin-top: 2rem;">
     @csrf
     <h3>Write a review</h3>
 
@@ -92,9 +96,3 @@
 @endsection
 
 @endauth
-
-
-
-{{-- because we set the relationship in App\Book and App\Publisher, we can now get the publisher's name: $book->publisher->title gets the publisher's ID, and then inside the table publisher it fetches the publisher's name (title) --}}
-
-{{-- maxlength="255"  --}}

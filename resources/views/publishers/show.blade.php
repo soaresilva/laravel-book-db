@@ -1,5 +1,5 @@
 @extends('layout', [
-  'title' => 'List of Books'
+  'title' => 'List of Publishers'
 ])
 
 @section('headline')

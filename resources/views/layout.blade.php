@@ -17,6 +17,7 @@
 <nav>
   <a href="{{ action('BookExampleController@index') }}">List of Books</a> |
   <a href="{{ action('PublisherController@index') }}">List of Publishers</a> |
+  <a href="{{ action('BookshopController@index') }}">List of Bookshops</a> |
   <a href="{{ action('GenreController@index') }}">List of Genres</a> |
   <a href="{{ action('CartController@index') }}">View Cart</a> |
   <a href="{{ action('CartController@emptycart') }}">Empty Cart</a>

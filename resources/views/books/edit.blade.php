@@ -3,7 +3,7 @@
 ])
 
 @section('content')
-<form action="/books/{{$book->id}}/edit" method="post" enctype="multipart/form-data">
+<form action="{{ action('BookExampleController@update', [$book->id]) }}" method="post" enctype="multipart/form-data">
 @csrf
   <input type="text" name="title" placeholder="Title" value="{{$book->title}}">
   <input type="text" name="authors" placeholder="Authors" value="{{$book->authors}}">
@@ -25,5 +25,3 @@
 
 @endsection
 {{-- there needs to be a @csrf tag, or it won't produce a token and will return a 419 error --}}
-
-{{-- notice the "/books/{{$book->id}}/edit" on top. we need to get the proper id instead of using just {id} --}}

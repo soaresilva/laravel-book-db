@@ -23,7 +23,14 @@
             {{$item->book->title}}
             </a>
             ({{$item->book->publisher !== null ? $item->book->publisher->title : "Publisher unknown"}})</p>
-            <p>In cart: <b>{{$item->count}}</b> | <a href="/cart/{{$item->id}}/delete">Remove from cart</a></p>
+            <p>In cart: <b>{{$item->count}}</b></p>
+            
+            <form action="{{ route('cart.delete', $item->id) }}" method="post">
+              @method('delete')
+              @csrf
+              <input type="submit" value="Remove from cart">
+            </form>   
+        
           </div>
         <hr/>
       @empty

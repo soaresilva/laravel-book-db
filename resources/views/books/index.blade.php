@@ -2,11 +2,19 @@
   'title' => 'List of Books'
 ])
 
+@if(Session::has('success_message'))
+    <div class="alert alert-success">
+        {{ Session::get('success_message') }}
+    </div>
+@endif
+
 @section('headline')
   <h1>List of Books</h1>
 @endsection
 
 @section('content')
+
+{{ $books->links() }}
 
 @foreach ($books as $book)
 <div style="display:flex; padding-top: 1em;">
@@ -21,5 +29,7 @@
 </div>
 <hr/>
 @endforeach
+
+{{ $books->links() }}
 
 @endsection
