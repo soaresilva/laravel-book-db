@@ -51,7 +51,19 @@ class BookshopController extends Controller
     {
         $bookshop = Bookshop::findOrFail($id);
         $book = $request->input('book_id');
-        $bookshop->books()->attach($book);
+        $count = $request->input('count');
+        // $bookshop->books()->syncWithoutDetaching($book, ['count' => $count]);
+
+        // what syncWithoutDetaching is doing is basically the same as creating an if condition like
+
+        if ($bookshop->books()->find($book) === null) {
+            $bookshop->books()->attach($book, ['count' => $count]);
+        } else {
+            // $bookshop->books()->detach($book);
+            $oldcount = $bookshop->books()->find($book)->pivot->count;
+            $count = $oldcount + $count;
+            $bookshop->books()->updateExistingPivot($book, ['count' => $count]);
+        }
 
         // quick reminder: these two lines below are the same; we need the first to add queries (e.g. $bookshop->books()->limit(10)->where('id', '<', 5)->get()).
         // return $bookshop->books()->get();
@@ -60,6 +72,14 @@ class BookshopController extends Controller
         // using ->toSql() at the end is a GREAT debugging tool!
 
         // return $bookshop->books()->limit(10)->where('id', '<', 5)->toSql();
-        return redirect('bookshops/' . $bookshop->id);
+        return redirect()->back();
+    }
+
+    public function removeBook(Request $request, $id)
+    {
+        $bookshop = Bookshop::findOrFail($id);
+        $book = $request->input('book');
+        $bookshop->books()->detach($book);
+        return redirect()->back();
     }
 }

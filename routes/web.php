@@ -27,6 +27,8 @@ Route::post('/books', 'BookExampleController@store');
 Route::get('/books/{id}/edit', 'BookExampleController@edit');
 Route::post('/books/{id}/edit', 'BookExampleController@update');
 Route::delete('books/{id}', 'BookExampleController@delete')->name('book.delete');
+Route::post('/books/{id}/add-bookshop', 'BookExampleController@addBookshop')->middleware('can:admin');
+Route::post('books/{id}/remove-bookshop/', 'BookExampleController@removeBookshop')->middleware('can:admin');
 
 Route::get('/publishers', 'PublisherController@index');
 Route::get('/publishers/create', 'PublisherController@create');
@@ -45,7 +47,7 @@ Route::delete('cart/{id}', 'CartController@delete')->name('cart.delete');
 // Route::post('/cart/add', 'CartController@postAdd');
 
 Route::post('review/{book_id}', 'ReviewController@store')->middleware('auth');
-Route::delete('review/{id}', 'ReviewController@delete')->middleware('can:admin')->name('review.delete');
+Route::delete('review/{book_id}', 'ReviewController@delete')->middleware('can:admin');
 
 // Bookshops
 
@@ -53,7 +55,9 @@ Route::get('/bookshops', 'BookshopController@index');
 Route::get('/bookshops/create', 'BookshopController@create');
 Route::post('/bookshops', 'BookshopController@store');
 Route::get('/bookshops/{id}', 'BookshopController@show');
-Route::post('/bookshops/{id}/add-book', 'BookshopController@addBook');
+Route::post('/bookshops/{id}/add-book', 'BookshopController@addBook')->middleware('can:admin');
+Route::delete('bookshops/{id}', 'BookshopController@delete');
+Route::post('bookshops/{id}/remove-book/', 'BookshopController@removeBook')->middleware('can:admin');
 
 Route::get('/books-qb', 'BookQueryBuilderController@index');
 

@@ -25,6 +25,7 @@
 
   @yield('headline')
   @yield('content')
+  @yield('listbookshops')
   @yield('listreviews')
   @yield('review')
   @yield('bottomnav')

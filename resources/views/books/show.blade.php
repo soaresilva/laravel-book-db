@@ -30,7 +30,52 @@
     </form>   
   </div>
 </div>
+<hr/>
 
+@endsection
+
+@section('listbookshops')
+
+<div style="padding: 1em;">
+
+  <h3>Bookshops where you can find {{$book->title}} </h3>
+  
+    @forelse ($book->bookshops as $bookshop)
+      <div style="display:flex; flex-direction: column;">
+        <p><a href="{{ action('BookshopController@show', [$bookshop->id]) }}">
+        {{$bookshop->name}}
+        </a>
+        {{-- ({{$bookshop->book->publisher !== null ? $bookshop->book->publisher->title : "Publisher unknown"}})</p> --}}
+      </div>
+  </div>
+
+      @can('admin')  
+        <form action="{{ action('BookExampleController@removeBookshop', [$book->id]) }}" method="post">
+          @csrf
+          <input type="hidden" name="bookshop" value="{{$bookshop->id}}">
+          <input type="submit" value="Remove from bookshop">
+        </form>   
+      @endcan
+
+    <hr/>
+
+    @empty
+    <p>This book is sold out in every bookshop.</p>
+    @endforelse
+
+    @can('admin')  
+      <div style="display: flex; direction:flex-column;">
+          <form action="{{ action('BookExampleController@addBookshop', [$book->id]) }}" method="post">
+            @csrf
+            <select name="bookshop_id" style="width: 150px">
+              @foreach ($bookshops as $bookshop)
+                <option value="{{$bookshop->id}}">{{$bookshop->name}}</option>
+              @endforeach
+            </select>
+            <input type="submit" value="Add to bookshop">
+            <hr/>
+      </div>
+    @endcan
 @endsection
 
 @section('listreviews')
@@ -43,13 +88,12 @@
       <p><b><a href="mailto:{{$review->user->email}}">{{$review->user->name}}</a></b>: {{$review->review}}</p>
       
     @can('admin')
-      <form action="{{ route('review.delete', $review->id) }}" method="post">
+      <form action="{{ action('ReviewController@delete', $review->id) }}" method="post">
           @method('delete')
           @csrf
-          <input type="submit" value="delete">
+          <input type="submit" style="width: 70px" value="delete">
       </form>
     @endcan
-      
       
     @empty
       <p>This book has no reviews. Write one?</p>
@@ -67,7 +111,7 @@
 
 @section('review')
 
-<div style="display:flex">
+<div style="display:flex; flex-direction: column">
 
   <form action="{{ action('ReviewController@store', [$book->id])}}" method="post" style="display: flex; flex-direction: column; margin-top: 2rem;">
     @csrf
@@ -87,8 +131,8 @@
     
     <input type='text' disabled value="{{ Auth::user()->email }}" name='email' style="margin-bottom: .5rem; width: 20rem;" />
 
-    <textarea rows="5" columns="10" placeholder='Write your review' name='review' style="margin-bottom: .5rem;">{{old('review')}}</textarea>
-    <input type='Submit'style="margin-bottom: .5rem;" />
+    <textarea rows="5" placeholder='Write your review' name='review' style="margin-bottom: .5rem; width: 20rem;">{{old('review')}}</textarea>
+    <input type='Submit'style="margin-bottom: .5rem; width: 60px" />
   </form>
   
 </div>

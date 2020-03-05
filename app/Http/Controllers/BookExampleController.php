@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\Genre;
-use App\Publisher;
 use App\Review;
+use App\Bookshop;
+use App\Publisher;
 use Illuminate\Http\Request;
 
 class BookExampleController extends Controller
@@ -25,7 +26,8 @@ class BookExampleController extends Controller
     {
         $book = Book::findOrFail($id);
         $reviews = Review::all();
-        return view('books/show', compact('book', 'reviews'));
+        $bookshops = Bookshop::all();
+        return view('books/show', compact('book', 'reviews', 'bookshops'));
     }
 
     public function create()
@@ -108,5 +110,21 @@ class BookExampleController extends Controller
         // return redirect('books/');
         session()->flash('success_message', 'Book deleted.');
         return redirect('books/');
+    }
+
+    public function addBookshop(Request $request, $id)
+    {
+        $book = Book::findOrFail($id);
+        $bookshop = $request->input('bookshop_id');
+        $book->bookshops()->syncWithoutDetaching($bookshop);
+        return redirect()->back();
+    }
+
+    public function removeBookshop(Request $request, $id)
+    {
+        $book = Book::findOrFail($id);
+        $bookshop = $request->input('bookshop');
+        $book->bookshops()->detach($bookshop);
+        return redirect()->back();
     }
 }
