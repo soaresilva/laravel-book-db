@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Book;
-use App\Genre;
-use App\Review;
 use App\Bookshop;
+use App\Genre;
 use App\Publisher;
+use App\Review;
 use Illuminate\Http\Request;
 
 class BookExampleController extends Controller
@@ -27,7 +27,8 @@ class BookExampleController extends Controller
         $book = Book::findOrFail($id);
         $reviews = Review::all();
         $bookshops = Bookshop::all();
-        return view('books/show', compact('book', 'reviews', 'bookshops'));
+        $books = Book::all();
+        return view('books/show', compact('book', 'reviews', 'bookshops', 'books'));
     }
 
     public function create()
@@ -125,6 +126,22 @@ class BookExampleController extends Controller
         $book = Book::findOrFail($id);
         $bookshop = $request->input('bookshop');
         $book->bookshops()->detach($bookshop);
+        return redirect()->back();
+    }
+
+    public function addRelated(Request $request, $id)
+    {
+        $book = Book::findOrFail($id);
+        $book2 = $request->input('book2');
+        $book->books()->syncWithoutDetaching($book2);
+        return redirect()->back();
+    }
+
+    public function removeRelated(Request $request, $id)
+    {
+        $book = Book::findOrFail($id);
+        $book2 = $request->input('book2');
+        $book->books()->detach($book2);
         return redirect()->back();
     }
 }

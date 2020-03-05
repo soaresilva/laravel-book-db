@@ -20,14 +20,19 @@
     <h2>{{$book->title}}</h2>
     <i><b>{{$book->authors}}</b> ({{$book->publisher !== null ? $book->publisher->title : "Publisher unknown"}})</i>
     <p><b>Genre</b>: {{$book->genre !== null ? $book->genre->name : ""}}</p>
-    <a href="/books/{{$book->id}}/edit">Edit book</a>
-    <a href="/cart/add/{{ $book->id }}">Add to Cart</a>
-    <a href="{{ action('BookExampleController@index') }}">Go back to index</a> 
+    
+    @can('admin')
     <form action="{{ route('book.delete', $book->id) }}" method="post">
       @method('delete')
       @csrf
       <input type="submit" value="Delete book">
     </form>   
+    
+    <a href="/books/{{$book->id}}/edit">Edit book</a>
+
+    @endcan
+    
+    <a href="/cart/add/{{ $book->id }}">Add to Cart</a>
   </div>
 </div>
 <hr/>
@@ -45,7 +50,6 @@
         <p><a href="{{ action('BookshopController@show', [$bookshop->id]) }}">
         {{$bookshop->name}}
         </a>
-        {{-- ({{$bookshop->book->publisher !== null ? $bookshop->book->publisher->title : "Publisher unknown"}})</p> --}}
       </div>
   </div>
 
@@ -60,7 +64,7 @@
     <hr/>
 
     @empty
-    <p>This book is sold out in every bookshop.</p>
+    <p>"{{$book->title}}" is sold out in every bookshop.</p>
     @endforelse
 
     @can('admin')  
@@ -73,9 +77,54 @@
               @endforeach
             </select>
             <input type="submit" value="Add to bookshop">
-            <hr/>
+          </form>
       </div>
+      <hr/>
     @endcan
+    
+@endsection
+
+@section('relatedbooks')
+
+@can('admin')
+<div style="display: flex; direction:flex-column;">
+    <form action="{{ action('BookExampleController@addRelated', [$book->id]) }}" method="post">
+      @csrf
+      <select name="book2" style="width: 150px">
+        @foreach ($books as $book2)
+          <option value="{{$book2->id}}">{{$book2->title}}</option>
+        @endforeach
+      </select>
+      <input type="submit" value="Add to related books">
+    </form>
+</div>
+@endcan
+<hr/>
+
+<h3>You might also be interested in...</h3>
+  
+@forelse ($book->books as $relatedbook)
+  <div style="display:flex; flex-direction: column;">
+    <p><a href="{{ action('BookExampleController@show', [$book->id]) }}">
+    {{$relatedbook->title}}
+    </a>
+  </div>
+</div>
+
+  @can('admin')  
+    <form action="{{ action('BookExampleController@removeRelated', [$book->id]) }}" method="post">
+      @csrf
+      <input type="hidden" name="book2" value="{{$relatedbook->id}}">
+      <input type="submit" value="Remove related book">
+    </form>   
+  @endcan
+<hr/>
+
+@empty
+<p>No suggestions.</p>
+@endforelse
+
+
 @endsection
 
 @section('listreviews')

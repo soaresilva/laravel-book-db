@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCountColumnToBookBookshopTable extends Migration
+class CreatePasswordResetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddCountColumnToBookBookshopTable extends Migration
      */
     public function up()
     {
-        Schema::table('book_bookshop', function (Blueprint $table) {
-            $table->integer('count')->default(0);
+        Schema::create('password_resets', function (Blueprint $table) {
+            $table->string('email')->index();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -25,8 +27,6 @@ class AddCountColumnToBookBookshopTable extends Migration
      */
     public function down()
     {
-        Schema::table('book_bookshop', function (Blueprint $table) {
-            $table->dropColumn('count');
-        });
+        Schema::dropIfExists('password_resets');
     }
 }

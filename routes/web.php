@@ -29,6 +29,8 @@ Route::post('/books/{id}/edit', 'BookExampleController@update');
 Route::delete('books/{id}', 'BookExampleController@delete')->name('book.delete');
 Route::post('/books/{id}/add-bookshop', 'BookExampleController@addBookshop')->middleware('can:admin');
 Route::post('books/{id}/remove-bookshop/', 'BookExampleController@removeBookshop')->middleware('can:admin');
+Route::post('/books/{id}/add-related', 'BookExampleController@addRelated');
+Route::post('books/{id}/remove-related/', 'BookExampleController@removeRelated');
 
 Route::get('/publishers', 'PublisherController@index');
 Route::get('/publishers/create', 'PublisherController@create');
