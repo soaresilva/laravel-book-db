@@ -14,7 +14,7 @@ class AddCountColumnToBookBookshopTable extends Migration
     public function up()
     {
         Schema::table('book_bookshop', function (Blueprint $table) {
-            $table->integer('count')->default(0); //we have set a default value for the count when it is first added to the table
+            $table->integer('count')->default(0);
         });
     }
 

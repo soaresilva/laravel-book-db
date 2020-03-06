@@ -14,11 +14,10 @@ class CreateBookBookshopTable extends Migration
     public function up()
     {
         Schema::create('book_bookshop', function (Blueprint $table) {
-            $table->unsignedBigInteger('book_id');
-            $table->unsignedBigInteger('bookshop_id');
+            $table->integer('book_id');
+            $table->integer('bookshop_id');
         });
-    } 
-    //creatting a pivot table is just creating a table to store the relationship info, but we still need to define the relationship
+    }
 
     /**
      * Reverse the migrations.

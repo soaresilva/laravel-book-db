@@ -14,11 +14,7 @@ class AddUserIdToReviewsTable extends Migration
     public function up()
     {
         Schema::table('reviews', function (Blueprint $table) {
-            $table->dropColumn('name');
-            $table->dropColumn('email');
             $table->unsignedBigInteger('user_id')->after('id');
-
-
         });
     }
 
@@ -31,10 +27,9 @@ class AddUserIdToReviewsTable extends Migration
     {
         Schema::table('reviews', function (Blueprint $table) {
             $table->dropColumn('user_id');
+
             $table->string('email')->after('updated_at');
-            $table->string('name')->after('review');;
-
-
+            $table->string('name')->after('review');
         });
     }
 }
