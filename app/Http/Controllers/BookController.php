@@ -9,14 +9,13 @@ use App\Publisher;
 use App\Review;
 use Illuminate\Http\Request;
 
-class BookExampleController extends Controller
+class BookController extends Controller
 {
     public function index()
     {
-        // $books = Book::all();
-        // return view('books/index', compact('books'));
         $books = Book::query()
             ->orderBy('title', 'asc')
+        // makes it so much faster: it looks through all the books and creates an array with all of them inside, reducing the queries from 102 to 3, and the request duration from 1.4s to 700ms
             ->with('publisher')
             ->with('reviews')
             ->paginate(50);
@@ -50,12 +49,7 @@ class BookExampleController extends Controller
     {
         // if there is a file named image_file in the request
         if ($file = $request->file('image_file')) {
-            //handle the file upload -> store it in a disk (in this case 'uploads' as defined in filesystems.php)
-            //              input name           folder    disk
             $request->file('image_file')->store('covers', 'uploads');
-
-            // to store the file with the name we want
-            // to store it with the original name
             $original_name = $file->getClientOriginalName();
             $request->file('image_file')->storeAs('covers', $original_name, 'uploads');
         }
@@ -64,6 +58,7 @@ class BookExampleController extends Controller
         $b->title = $request->input('title');
         $b->authors = $request->input('authors');
         $b->genre_id = $request->input('genre_id');
+        // if no file is uploaded, use a placeholder cover
         if (!$file) {
             $b->image = "https://i.stack.imgur.com/D2VB2.png";
         } else {
@@ -84,11 +79,12 @@ class BookExampleController extends Controller
             $request->file('image_file')->storeAs('covers', $original_name, 'uploads');
         }
 
-        $book = Book::findOrFail($id); // Grabbing a book from the database instead of creating a new one
+        $book = Book::findOrFail($id);
         $book->title = $request->input('title');
         $book->authors = $request->input('authors');
         $book->genre_id = $request->input('genre_id');
         $book->publisher_id = $request->input('publisher_id');
+        // if a book cover exists (no placeholder) and no file is provided, keep previous cover; if it doesn't, set placeholder picture; if file is provided, set it as book cover
         if (!$file) {
             if ($book->image !== 'https://i.stack.imgur.com/D2VB2.png') {
                 $book->image = $book->image;
@@ -108,7 +104,6 @@ class BookExampleController extends Controller
         $book = Book::findOrFail($id);
         // TODO: create a prompt to ask user 'are you sure you want to delete the book?'
         $book->delete();
-        // return redirect('books/');
         session()->flash('success_message', 'Book deleted.');
         return redirect('books/');
     }

@@ -2,14 +2,16 @@
   'title' => 'Book info'
 ])
 
+
+@section('headline')
+
 @if(Session::has('success_message'))
     <div class="alert alert-success">
         {{ Session::get('success_message') }}
     </div>
 @endif
 
-@section('headline')
-  <h2>Book details</h2>
+  <h2>Book details</h2><hr/>
 @endsection
 
 @section('content')
@@ -18,18 +20,20 @@
   <img src="{{$book->image}}" /><br>
   <div class="bookdisplay">
     <h2>{{$book->title}}</h2>
-    <i><b>{{$book->authors}}</b> ({{$book->publisher !== null ? $book->publisher->title : "Publisher unknown"}})</i>
+    <p><em><b>{{$book->authors}}</b></em> ({{$book->publisher !== null ? $book->publisher->title : "Publisher unknown"}})</p>
     <p><b>Genre</b>: {{$book->genre !== null ? $book->genre->name : ""}}</p>
     
     @can('admin')
     <form action="{{ route('book.delete', $book->id) }}" method="post">
       @method('delete')
       @csrf
-      <input type="submit" value="Delete book">
-    </form>   
-    
-    <a href="/books/{{$book->id}}/edit">Edit book</a>
-
+      <input type="submit" value="Delete book from database">
+    </form>
+    <br>
+    <form action="{{ route('book.edit', $book->id) }}" method="get">
+      <input type="submit" value="Edit book">
+    </form>
+    <br>
     @endcan
     
     <a href="/cart/add/{{ $book->id }}">Add to Cart</a>
@@ -41,20 +45,20 @@
 
 @section('listbookshops')
 
-<div style="padding: 1em;">
+<div style="">
 
   <h3>Bookshops where you can find {{$book->title}} </h3>
   
     @forelse ($book->bookshops as $bookshop)
       <div style="display:flex; flex-direction: column;">
         <p><a href="{{ action('BookshopController@show', [$bookshop->id]) }}">
-        {{$bookshop->name}}
+        {{$bookshop->name}} ({{ $bookshop->city }})
         </a>
       </div>
   </div>
 
       @can('admin')  
-        <form action="{{ action('BookExampleController@removeBookshop', [$book->id]) }}" method="post">
+        <form action="{{ action('BookController@removeBookshop', [$book->id]) }}" method="post">
           @csrf
           <input type="hidden" name="bookshop" value="{{$bookshop->id}}">
           <input type="submit" value="Remove from bookshop">
@@ -69,7 +73,7 @@
 
     @can('admin')  
       <div style="display: flex; direction:flex-column;">
-          <form action="{{ action('BookExampleController@addBookshop', [$book->id]) }}" method="post">
+          <form action="{{ action('BookController@addBookshop', [$book->id]) }}" method="post">
             @csrf
             <select name="bookshop_id" style="width: 150px">
               @foreach ($bookshops as $bookshop)
@@ -88,7 +92,7 @@
 
 @can('admin')
 <div style="display: flex; direction:flex-column;">
-    <form action="{{ action('BookExampleController@addRelated', [$book->id]) }}" method="post">
+    <form action="{{ action('BookController@addRelated', [$book->id]) }}" method="post">
       @csrf
       <select name="book2" style="width: 150px">
         @foreach ($books as $book2)
@@ -105,18 +109,16 @@
   
 @forelse ($book->books as $relatedbook)
   <div style="display:flex; flex-direction: column;">
-    <p><a href="{{ action('BookExampleController@show', [$book->id]) }}">
-    {{$relatedbook->title}}
-    </a>
+    <p><a href="{{ action('BookController@show', [$book->id]) }}">
+    {{$relatedbook->title}}</a></p>
   </div>
-</div>
 
   @can('admin')  
-    <form action="{{ action('BookExampleController@removeRelated', [$book->id]) }}" method="post">
+    <form action="{{ action('BookController@removeRelated', [$book->id]) }}" method="post">
       @csrf
       <input type="hidden" name="book2" value="{{$relatedbook->id}}">
       <input type="submit" value="Remove related book">
-    </form>   
+    </form>
   @endcan
 <hr/>
 
@@ -124,29 +126,27 @@
 <p>No suggestions.</p>
 @endforelse
 
-
 @endsection
 
 @section('listreviews')
+<div>
 
-  <div style="display:flex; flex-direction: column; padding-top: 1em;">
-
-    <h3>Reviews for {{$book->title}} </h3>
-
-    @forelse ($book->reviews as $review)
-      <p><b><a href="mailto:{{$review->user->email}}">{{$review->user->name}}</a></b>: {{$review->review}}</p>
-      
-    @can('admin')
-      <form action="{{ action('ReviewController@delete', $review->id) }}" method="post">
-          @method('delete')
-          @csrf
-          <input type="submit" style="width: 70px" value="delete">
-      </form>
-    @endcan
-      
+      <h3>Reviews for {{$book->title}} </h3>
+      @forelse ($book->reviews as $review)
+      <div style="display:flex; justify-content: space-between; width: 45%">
+        <p><b><a href="mailto:{{$review->user->email}}">{{$review->user->name}}</a></b>: {{$review->review}}</p>
+      @can('admin')
+        <form action="{{ action('ReviewController@delete', $review->id) }}" method="post">
+            @method('delete')
+            @csrf
+            <input type="submit" style="width: 70px" value="delete">
+        </form>
+      @endcan
+    </div>
     @empty
       <p>This book has no reviews. Write one?</p>
     @endforelse
+    <hr />
 
 @guest
   <h3>Please <a href=" {{ route('login') }}">login</a> to leave a review.</h3>
@@ -159,10 +159,7 @@
 @auth
 
 @section('review')
-
-<div style="display:flex; flex-direction: column">
-
-  <form action="{{ action('ReviewController@store', [$book->id])}}" method="post" style="display: flex; flex-direction: column; margin-top: 2rem;">
+  <form action="{{ action('ReviewController@store', [$book->id])}}" method="post" style="display: flex; flex-direction: column;">
     @csrf
     <h3>Write a review</h3>
 
@@ -184,8 +181,6 @@
     <input type='Submit'style="margin-bottom: .5rem; width: 60px" />
   </form>
   
-</div>
-
 @endsection
 
 @endauth

@@ -10898,9 +10898,12 @@ img {
 }
 
 body {
-  background-color: pink;
+  background-color: antiquewhite;
   font-family: Nunito, sans-serif;
-  padding-left: 3rem;
+}
+
+.py-4 {
+  margin-left: 3rem;
 }
 
 nav {
@@ -10918,5 +10921,24 @@ nav {
   display: flex;
   flex-direction: column;
   padding-left: 2rem;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  body {
+    background-color: #333333;
+    color: white;
+  }
+
+  .card {
+    color: black;
+  }
+
+  a {
+    color: lightblue;
+  }
+
+  a:visited {
+    color: #5ebddd;
+  }
 }
 

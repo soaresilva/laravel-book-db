@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Publisher; // we don't need to do this in this case because Publisher and Book are siblings (they are in the same level in the same namespace (inside App))
+use App\Publisher;
 use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
@@ -11,8 +11,7 @@ class Book extends Model
 
     public function publisher()
     {
-        return $this->belongsTo(Publisher::class); // we establish a connection between Book and Publisher. One book can only have one publisher and one publisher can have many books, so 'Book' belongs to 'Publisher'. We also need to define the other side of the relationship.
-        // It NEEDS to be called 'publisher' because Laravel will check the columns on the 'books' table, searching for something that has xxx_id; because there is a "publisher_id" column, that's where the connection is going to be made.
+        return $this->belongsTo(Publisher::class);
     }
 
     public function genre()
@@ -32,11 +31,13 @@ class Book extends Model
 
     public function bookshops()
     {
+        // always use ->withPivot to reference a third column inside the pivot table
         return $this->belongsToMany(Bookshop::class, 'book_bookshop')->withPivot(['count']);
     }
 
     public function books()
     {
+        // reminder: the keys need to be specified if laravel naming conventions are broken (here we reference the books' IDs twice)
         return $this->belongsToMany(Book::class, 'book_book', 'book_id', 'book2_id');
     }
 }

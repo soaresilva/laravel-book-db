@@ -22,7 +22,7 @@
 @csrf
   <input type="text" name="name" placeholder="Bookshop name">
   <input type="text" name="city" placeholder="City">
-  <input type="submit">
+  <input type="submit" value="Add to database">
 </form>
 
 @endsection

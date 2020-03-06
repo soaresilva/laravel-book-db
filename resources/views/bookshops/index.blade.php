@@ -13,8 +13,13 @@
 @endsection
 
 @section('content')
+
+@can('admin')  
+<h3><a href="{{ action('BookshopController@create') }}">Add bookshop to database</a></h3><hr/>
+@endcan
+
     @foreach ($bookshops as $bookshop)
-    <div style="padding-top: 1em;">
+    <div>
         <h3>{{$bookshop->name}} ({{$bookshop->city}})</h3>
         <a href="{{ action('BookshopController@show', [$bookshop->id]) }}">More info</a>
     </div>

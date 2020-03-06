@@ -8,10 +8,15 @@
 
 
 @section('content')
+
+@can('admin')  
+<h3><a href="{{ action('PublisherController@create') }}">Add publisher to database</a></h3><hr/>
+@endcan
+
     @foreach ($publishers as $publisher)
-    <div style="padding-top: 1em;">
+    <div>
         <h3>{{$publisher->title}}</h3>
-        <a href="{{ action('PublisherController@show', [$publisher->id]) }}">Read more</a>
+        <a href="{{ action('PublisherController@show', [$publisher->id]) }}">See editions</a>
     </div>
     <hr/>
     @endforeach

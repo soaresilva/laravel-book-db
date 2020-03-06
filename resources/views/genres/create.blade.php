@@ -10,6 +10,6 @@
 <form action="/genres" method="post">
 @csrf
   <input type="text" name="name" placeholder="New genre">
-  <input type="submit">
+  <input type="submit" value="Add to database">
 </form>
 @endsection

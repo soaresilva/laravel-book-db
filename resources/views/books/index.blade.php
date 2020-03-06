@@ -16,13 +16,17 @@
 
 {{ $books->links() }}
 
+@can('admin')  
+<h3><a href="{{ action('BookController@create') }}">Add book to database</a></h3><hr/>
+@endcan
+
 @foreach ($books as $book)
-<div style="display:flex; padding-top: 1em;">
+<div style="display:flex">
   <img src="{{$book->image}}" /><br>
   <div style="display:flex; flex-direction: column; padding-left: 2em;">
     <h2>{{$book->title}}</h2>
   <h4><i>{{$book->authors}}</i> ({{$book->publisher->title}})</h4>
-    <a href="{{ action('BookExampleController@show', [$book->id]) }}">Read more</a>
+    <a href="{{ action('BookController@show', [$book->id]) }}">Read more</a>
     <a href="/cart/add/{{ $book->id }}">Add to Cart</a>
 
   </div>

@@ -1,3 +1,5 @@
+{{-- TODO: make the cart exclusive of a certain user; that is not implemented yet. User --}}
+
 @extends('layout', [
   'title' => 'Your cart'
 ])
@@ -11,7 +13,7 @@
 <div style="padding: 1rem;">
 
   <div>
-      <a href="{{ action('BookExampleController@index') }}">Return to list of books</a> |
+      <a href="{{ action('BookController@index') }}">Return to list of books</a> |
       <a href="{{ action('CartController@emptycart') }}">Empty cart</a>
   </div>
   
@@ -19,7 +21,7 @@
   
       @forelse ($items as $item)
           <div style="display:flex; flex-direction: column; padding-left: 3em;">
-            <p><a href="{{ action('BookExampleController@show', [$item->book->id]) }}">
+            <p><a href="{{ action('BookController@show', [$item->book->id]) }}">
             {{$item->book->title}}
             </a>
             ({{$item->book->publisher !== null ? $item->book->publisher->title : "Publisher unknown"}})</p>

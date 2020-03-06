@@ -54,12 +54,11 @@ class BookshopController extends Controller
         $count = $request->input('count');
         // $bookshop->books()->syncWithoutDetaching($book, ['count' => $count]);
 
-        // what syncWithoutDetaching is doing is basically the same as creating an if condition like
+        // what syncWithoutDetaching is doing is basically the same as creating an if condition such as:
 
         if ($bookshop->books()->find($book) === null) {
             $bookshop->books()->attach($book, ['count' => $count]);
         } else {
-            // $bookshop->books()->detach($book);
             $oldcount = $bookshop->books()->find($book)->pivot->count;
             $count = $oldcount + $count;
             $bookshop->books()->updateExistingPivot($book, ['count' => $count]);
@@ -69,8 +68,7 @@ class BookshopController extends Controller
         // return $bookshop->books()->get();
         // return $bookshop->books;
 
-        // using ->toSql() at the end is a GREAT debugging tool!
-
+        // using ->toSql() at the end (like the commented out line below) is a GREAT debugging tool that I should not forget
         // return $bookshop->books()->limit(10)->where('id', '<', 5)->toSql();
         return redirect()->back();
     }

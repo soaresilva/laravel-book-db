@@ -1,43 +1,63 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 a:visited {
-  color: blue;
+    color: blue;
 }
 
 img {
-  width: 100px;
-  height: 150px;
+    width: 100px;
+    height: 150px;
 }
 
 body {
-  background-color: pink;
-  font-family: Nunito, sans-serif;
-  padding-left: 3rem;
+    background-color: antiquewhite;
+    font-family: Nunito, sans-serif;
+}
+
+.py-4 {
+    margin-left: 3rem;
 }
 
 nav {
-  padding: 1rem;
-  font-size: 1rem;
-  text-align: end;
+    padding: 1rem;
+    font-size: 1rem;
+    text-align: end;
 }
 
 .imgdisplay {
-  display:flex;
-  padding-top: 1rem;
+    display: flex;
+    padding-top: 1rem;
 }
 
 .bookdisplay {
-  display:flex; 
-  flex-direction: column; 
-  padding-left: 2rem;
+    display: flex;
+    flex-direction: column;
+    padding-left: 2rem;
+}
+
+// displays dark mode by default
+@media screen and (prefers-color-scheme: dark) {
+    body {
+        background-color: rgb(51, 51, 51);
+        color: white;
+    }
+    .card {
+        color: black;
+    }
+    a {
+        color: lightblue;
+        &:visited {
+            color: rgb(94, 189, 221);
+        }
+    }
 }

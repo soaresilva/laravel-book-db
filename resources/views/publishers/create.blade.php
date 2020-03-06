@@ -10,6 +10,6 @@
 <form action="/publishers" method="post">
 @csrf
   <input type="text" name="name" placeholder="New publisher">
-  <input type="submit">
+  <input type="submit" value="Add to database">
 </form>
 @endsection

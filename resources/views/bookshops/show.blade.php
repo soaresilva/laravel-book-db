@@ -3,7 +3,7 @@
 ])
 
 @section('headline')
-  <h2>List of books for sale at {{$bookshop->name}}, {{$bookshop->city}}</h2>
+  <h2>List of books for sale at {{$bookshop->name}}, {{$bookshop->city}}</h2><hr/>
 @endsection
 
 @section('content')
@@ -19,10 +19,10 @@
   
 </form>
 
-<div style="padding: 1em;">
+<div style="padding-top: 1em;">
   @forelse ($bookshop->books as $book)
-    <div style="display:flex; flex-direction: column; padding-left: 3em;">
-      <p><a href="{{ action('BookExampleController@show', [$book->id]) }}">
+    <div style="display:flex; flex-direction: column">
+      <p><a href="{{ action('BookController@show', [$book->id]) }}">
       {{$book->title}}
       </a>
     ({{$book->publisher !== null ? $book->publisher->title : "Publisher unknown"}}) ({{$book->pivot->count}} units)</p>
